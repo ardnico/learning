@@ -4,7 +4,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        println!("Useage: hello_cli <name>");
+        println!("名前を入力してください");
         return;
     }
 
