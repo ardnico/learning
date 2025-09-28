@@ -8,8 +8,12 @@ fn main() {
         return;
     }
 
+    let mut names: String = "".to_string();
     for i in 1..args.len() {
-        let name = &args[i];
-        println!("Hello, {}!", name);
+        if i > 1{
+            names += " and "; 
+        }
+        names += &args[i];
     }
+    println!("Hello, {}!", names);
 }
