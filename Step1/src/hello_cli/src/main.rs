@@ -1,17 +1,16 @@
 use std::env;
 
 fn main() {
-    let mut shout_flag: i32 = 0;
     let args: Vec<String> = env::args().collect();
 
-    if args.len() < 2 {
-        println!("Error: 名前を入力してください");
-        std::process::exit(1);
-    }
-    if args.contains(&"--shout".to_string()){
-        shout_flag = 1;
-    }
+    let _ = arg_chk(&args);
+}
 
+fn greet(name: &str) -> String {
+    format!("Hello, {}!", name)
+}
+
+fn greet_some_persons(args: &Vec<String>, shout_flag: i32) -> () {
     let mut names: String = "".to_string();
     for i in 1..args.len() {
         if &args[i] == "--shout" {
@@ -26,5 +25,18 @@ fn main() {
             names += &args[i];
         }
     }
-    println!("Hello, {}!", names);
+    println!("{}", greet(&names));
+}
+
+fn arg_chk(args: &Vec<String>) -> Result<(),()> {
+    let mut shout_flag: i32 = 0;
+    if args.len() < 2 {
+        println!("Error: 名前を入力してください");
+        return Err(());
+    }
+    if args.contains(&"--shout".to_string()){
+        shout_flag = 1;
+    }
+    greet_some_persons(&args,shout_flag);
+    Ok(())
 }
