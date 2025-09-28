@@ -5,8 +5,8 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        println!("名前を入力してください");
-        return;
+        println!("Error: 名前を入力してください");
+        std::process::exit(1);
     }
     if args.contains(&"--shout".to_string()){
         shout_flag = 1;
