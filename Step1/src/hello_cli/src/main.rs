@@ -8,6 +8,8 @@ fn main() {
         return;
     }
 
-    let name = &args[1];
-    println!("Hello, {}!", name);
+    for i in 1..args.len() {
+        let name = &args[i];
+        println!("Hello, {}!", name);
+    }
 }
