@@ -96,9 +96,9 @@ HELLO, ALICE!
 
 4. **追加課題**
 
-   * --lang <code> で英語以外の挨拶に対応（例: ja→こんにちは, fr→Bonjour） *
-   * サブコマンド対応 (hello_cli greet, hello_cli bye) にして bye フラグを外す *
-   * json で挨拶結果をJSON出力する（serde_json を学べる）*
+   * --lang <code> で英語以外の挨拶に対応（例: ja→こんにちは, fr→Bonjour）
+   * サブコマンド対応 (hello_cli greet, hello_cli bye) にして bye フラグを外す
+   * --json で挨拶結果をJSON出力する（serde_json を学べる）
 
 ---
 
