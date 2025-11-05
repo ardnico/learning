@@ -1,5 +1,16 @@
 use clap::Parser;
 
+/// Hello data structure
+#[derive( Debug, serde::Serialize)]
+#[allow(non_snake_case)]
+struct HelloData{
+    name:Vec<String>,
+    shout:bool,
+    bye:bool,
+    lang:String,
+    json:bool,
+}
+
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
 #[command(name = "hello_cli")]
@@ -22,6 +33,21 @@ struct Cli {
     /// Language for greeting (e.g., en, ja, fr)
     #[arg(long, default_value = "en")]
     lang: String,
+    /// Output format (text or json)
+    #[arg(long, default_value = "text")]
+    output: String,
+}
+
+impl Cli {
+    fn to_hello_data(&self) -> HelloData {
+        HelloData {
+            name: self.name.clone(),
+            shout: self.shout,
+            bye: self.bye,
+            lang: self.lang.clone(),
+            json: self.output == "json",
+        }
+    }
 }
 
 fn convert_greeting(greeting: &str, lang: &str) -> String {
@@ -79,9 +105,33 @@ fn greet(name: &str, shout: bool, bye: bool, lang: &str) {
     println!("{}", message);
 }
 
-fn main() {
-    let cli = Cli::parse();
+fn chk_options(cli: &mut Cli) {
     for name in &cli.name {
+        if name.to_lowercase() == "bye" {
+            cli.bye = true;
+        }
+        if name.to_lowercase() == "shout" {
+            cli.shout = true;
+        }
+        if name.to_lowercase() == "json" {
+            cli.output = "json".to_string();
+        }
+    }
+}
+
+fn main() {
+    let mut cli = Cli::parse();
+    chk_options(&mut cli);
+    if cli.output == "json" {
+        let hello_data = cli.to_hello_data();
+        let json_output = serde_json::to_string_pretty(&hello_data).unwrap();
+        println!("{}", json_output);
+        return
+    }
+    for name in &cli.name {
+        if ["Hello", "Shout", "Bye"].contains(&name.as_str()) {
+            continue;
+        }
         for _ in 0..cli.times {
             greet(name, cli.shout, cli.bye, &cli.lang);
         }
